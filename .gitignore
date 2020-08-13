@@ -1,0 +1,9 @@
+*.class
+*.log
+metals.sbt
+
+target
+project/target
+
+.bloop
+.metals
