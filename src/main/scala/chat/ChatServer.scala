@@ -16,11 +16,11 @@ object ChatServer {
 
   def stream[F[_]: ConcurrentEffect](implicit
       T: Timer[F],
-      C: ContextShift[F],
+      C: ContextShift[F]
   ): Stream[F, Nothing] = {
     for {
       client <- BlazeClientBuilder[F](global).stream
-      storage = MessageRepositoryInMemoryInterpreter.empty[F]
+      storage  = MessageRepositoryInMemoryInterpreter.empty[F]
       messages = MessageService.empty[F](storage)
 
       // Combine Service Routes into an HttpApp.

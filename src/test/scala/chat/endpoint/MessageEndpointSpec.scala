@@ -25,13 +25,13 @@ class MessageEndpointSpec
     with Http4sDsl[IO]
     with Http4sClientDsl[IO] {
   implicit val msgDec: EntityDecoder[IO, chat.domain.messages.Message] = jsonOf
-  implicit val msgReqEnc: EntityEncoder[IO, MessageRequest] = jsonEncoderOf
+  implicit val msgReqEnc: EntityEncoder[IO, MessageRequest]            = jsonEncoderOf
 
   def makeResources(): (HttpApp[IO], MessageService[IO]) = {
-    val storage = MessageRepositoryInMemoryInterpreter.empty[IO]
-    val msgRepo = MessageService.empty[IO](storage)
+    val storage     = MessageRepositoryInMemoryInterpreter.empty[IO]
+    val msgRepo     = MessageService.empty[IO](storage)
     val msgEndpoint = ChatRoutes.roomRoutes(msgRepo)
-    val msgRoute = Router(("/", msgEndpoint)).orNotFound
+    val msgRoute    = Router(("/", msgEndpoint)).orNotFound
     (msgRoute, msgRepo)
   }
 
@@ -39,7 +39,7 @@ class MessageEndpointSpec
     val (route, messages) = makeResources()
     forAll { msg: MessageRequest =>
       (for {
-        request <- POST(msg, uri"/chat")
+        request  <- POST(msg, uri"/chat")
         response <- route.run(request)
       } yield messages.getAll.unsafeRunSync() should not be empty)
     }
@@ -50,7 +50,7 @@ class MessageEndpointSpec
 
     forAll { msg: MessageRequest =>
       (for {
-        request <- POST(msg, uri"/chat")
+        request  <- POST(msg, uri"/chat")
         response <- route.run(request)
       } yield response.status shouldEqual Created).unsafeRunSync
     }
@@ -60,14 +60,14 @@ class MessageEndpointSpec
     val (route, messages) = makeResources()
     forAll { reqmsg: MessageRequest =>
       (for {
-        createReq <- POST(reqmsg, uri"/chat")
+        createReq  <- POST(reqmsg, uri"/chat")
         createResp <- route.run(createReq)
         msg = Messages.createMessage(reqmsg.author, reqmsg.msg)
-        by = AuthorFilter(reqmsg.author)
+        by  = AuthorFilter(reqmsg.author)
       } yield {
-          val found = messages.getBy(by).unsafeRunSync()
-          found.contains(msg) shouldEqual true
-        
+        val found = messages.getBy(by).unsafeRunSync()
+        found.contains(msg) shouldEqual true
+
       }).unsafeRunSync
     }
   }
