@@ -8,7 +8,9 @@ import org.http4s.implicits._
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware.Logger
 import scala.concurrent.ExecutionContext.global
-import chat.domain.messages.MessageRepository
+import chat.domain.messages.MessageService
+import chat.infraestructure.endpoint.ChatRoutes
+import chat.infraestructure.repository.inmemory.MessageRepositoryInMemoryInterpreter
 
 object ChatServer {
 
@@ -18,7 +20,8 @@ object ChatServer {
   ): Stream[F, Nothing] = {
     for {
       client <- BlazeClientBuilder[F](global).stream
-      messages = MessageRepository.empty[F]
+      storage = MessageRepositoryInMemoryInterpreter.empty[F]
+      messages = MessageService.empty[F](storage)
 
       // Combine Service Routes into an HttpApp.
       // Can also be done via a Router if you
