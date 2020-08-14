@@ -9,7 +9,7 @@ import cats.syntax.apply._
 class MessageInterpreter[F[_]](private val messages: ListBuffer[Message])(implicit e: Sync[F])
     extends MessageAlgebra[F] {
   def create(by: String, txt: String): F[Unit] = {
-    val newmsg = (Messages.createAuthor(by), Messages.createBody(txt)).mapN(Message.apply)
+    val newmsg = Messages.createMessage(by, txt)
     e.delay {
       newmsg match {
         case Some(msg) => messages += msg
