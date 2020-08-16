@@ -24,7 +24,7 @@ object ChatRoutes {
       case req @ POST -> Root / chatRoute =>
         req
           .decodeJson[MessageRequest]
-          .flatMap(json => chatMessages.create(json)) *> Created()
+          .flatMap(json => chatMessages.create(json)).flatMap(res => Created(res.asJson))
       case req @ POST -> Root / chatRoute / "filter" =>
         req
           .decodeJson[AuthorFilter]

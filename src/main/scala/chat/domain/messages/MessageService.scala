@@ -3,7 +3,7 @@ package chat.domain.messages
 import cats.Monad
 
 class MessageService[F[_]: Monad](storage: MessageRepositoryAlgebra[F]) {
-  def create(msgReq: MessageRequest): F[Unit] = {
+  def create(msgReq: MessageRequest): F[Message] = {
     val msg = Messages.createMessage(msgReq.author, msgReq.msg)
     storage.create(msg)
   }

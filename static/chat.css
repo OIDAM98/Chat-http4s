@@ -1,0 +1,19 @@
+body {
+  padding: 60px;
+  background-color: #67E6DC;
+}
+textarea {
+  resize: none;
+}
+
+#chat {
+  margin-top: 5vh;
+  margin-bottom: 3vh;
+  padding: 2em;
+  height: 60vh;
+  overflow: auto;
+}
+
+.message { 
+  margin: 1em;
+}

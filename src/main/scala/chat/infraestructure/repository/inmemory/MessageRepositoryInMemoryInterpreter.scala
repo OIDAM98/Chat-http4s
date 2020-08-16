@@ -13,11 +13,14 @@ import cats.data.OptionT
 
 class MessageRepositoryInMemoryInterpreter[F[_]]()(implicit e: Sync[F])
     extends MessageRepositoryAlgebra[F] {
-      
+
   private val messages: ListBuffer[Message] = ListBuffer.empty[Message]
 
-  def create(newmsg: Message): F[Unit] =
-    e.delay(messages += newmsg)
+  def create(newmsg: Message): F[Message] =
+    e.delay {
+      messages += newmsg
+      newmsg
+    }
   def getAll: F[List[Message]] = e.delay(messages.toList)
   def getBy(author: String): F[List[Message]] =
     e.delay(messages.filter(_.by.value == author).toList)
