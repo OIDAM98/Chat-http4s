@@ -4,7 +4,7 @@ import cats.Monad
 
 class MessageService[F[_]: Monad](storage: MessageRepositoryAlgebra[F]) {
   def create(msgReq: MessageRequest): F[Message] = {
-    val msg = Messages.createMessage(msgReq.author, msgReq.msg)
+    val msg = msgReq.toDomain()
     storage.create(msg)
   }
   def getAll: F[List[Message]] = storage.getAll

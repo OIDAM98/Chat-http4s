@@ -26,11 +26,11 @@ const createDiv = message => {
   div.className = "message card"
   const byP = document.createElement("h5")
   byP.className = "card-header text-white bg-info"
-  byP.innerText =  "@" + message.by.value + ":"
+  byP.innerText =  "@" + message.by + ":"
   div.appendChild(byP)
   const msgP = document.createElement("p")
   msgP.className = "card-text"
-  msgP.innerText = message.txt.value
+  msgP.innerText = message.txt
   div.appendChild(msgP)
   return div
 }
@@ -52,11 +52,16 @@ submitBtn.addEventListener('click', async () => {
         },
         body: JSON.stringify(json)
       })
-
-    const message = await resp.json()
-    console.log(message)
-    const msg = createDiv(message)
-    chatDiv.prepend(msg)
+    if(resp.ok) {
+      const message = await resp.json()
+      console.log(message)
+      const msg = createDiv(message)
+      chatDiv.prepend(msg)
+    }
+    else {
+      console.error(resp.statusText)
+      alert(resp.statusText)
+    }
 
   }
   catch (e) {
