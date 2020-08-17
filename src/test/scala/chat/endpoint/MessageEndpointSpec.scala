@@ -2,6 +2,7 @@ package chat.endpoint
 
 import cats.data.NonEmptyList
 import chat.domain.messages._
+import chat.domain.messages.types._
 import chat.ChatServerArbitraries
 import chat.infraestructure.endpoint.ChatRoutes
 import cats.effect._
@@ -62,8 +63,8 @@ class MessageEndpointSpec
       (for {
         createReq  <- POST(reqmsg, uri"/chat")
         createResp <- route.run(createReq)
-        msg = Messages.createMessage(reqmsg.author, reqmsg.msg)
-        by  = AuthorFilter(reqmsg.author)
+        msg = reqmsg.toDomain()
+        by  = AuthorFilter(msg.by)
       } yield {
         val found = messages.getBy(by).unsafeRunSync()
         found.contains(msg) shouldEqual true

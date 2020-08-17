@@ -29,6 +29,9 @@ object types {
   implicit val msgReqDecoder: Decoder[MessageRequest] =
     Decoder.forProduct2("author", "msg")(MessageRequest.apply)
 
+  implicit val msgReqEncoder: Encoder[MessageRequest] = Encoder.forProduct2[MessageRequest, String, String]("author", "msg") { json =>
+    (json.author.value.value, json.msg.value.value)
+  }
 }
 
 final case class AuthorFilter(by: String)
