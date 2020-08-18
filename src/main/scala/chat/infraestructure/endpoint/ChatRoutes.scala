@@ -12,8 +12,8 @@ import io.circe.syntax._
 import chat.domain.messages.AuthorFilter
 import chat.domain.messages.MessageService
 import chat.domain.messages.types._
-
 import chat.http.json._
+import chat.http.decoder._
 
 object ChatRoutes {
 
@@ -27,14 +27,18 @@ object ChatRoutes {
         chatMessages.getAll.flatMap(msgs => Ok(msgs.asJson))
       case req @ POST -> Root / chatRoute =>
         req
-          .decodeJson[MessageRequest]
-          .flatMap(chatMessages.create(_))
-          .flatMap(Created(_))
+          .decodeR[MessageRequest] { msgreq =>
+            chatMessages
+              .create(msgreq)
+              .flatMap(Created(_))
+          }
+
       case req @ POST -> Root / chatRoute / "filter" =>
         req
-          .decodeJson[AuthorFilter]
-          .flatMap(chatMessages.getBy(_))
-          .flatMap(Ok(_))
+          .decodeR[AuthorFilter]{ author =>
+            chatMessages.getBy(author)
+            .flatMap(Ok(_))
+          }
     }
   }
 
