@@ -7,23 +7,22 @@ import chat.domain.messages.Message
 import cats._
 import cats.effect.Sync
 import cats.implicits._
+import cats.effect.concurrent.Ref
 
-class MessageRepositoryInMemoryInterpreter[F[_]]()(implicit e: Sync[F])
+class MessageRepositoryInMemoryInterpreter[F[_]: Sync](messages: Ref[F, ListBuffer[Message]])
     extends MessageRepositoryAlgebra[F] {
 
-  private val messages: ListBuffer[Message] = ListBuffer.empty[Message]
-
   def create(newmsg: Message): F[Message] =
-    e.delay {
-      messages += newmsg
-      newmsg
-    }
-  def getAll: F[List[Message]] = e.delay(messages.toList)
+    messages.update(lst => lst += newmsg) *> newmsg.pure[F]
+
+  def getAll: F[List[Message]] = messages.get.map(_.toList)
   def getBy(author: String): F[List[Message]] =
-    e.delay(messages.filter(_.by == author).toList)
+    messages.get.map(_.filter(msg => msg.by == author).toList)
 }
 
 object MessageRepositoryInMemoryInterpreter {
-  def empty[F[_]: Sync]: MessageRepositoryInMemoryInterpreter[F] =
-    new MessageRepositoryInMemoryInterpreter[F]()
+  def empty[F[_]: Sync](
+      messages: Ref[F, ListBuffer[Message]]
+  ): F[MessageRepositoryInMemoryInterpreter[F]] =
+    (new MessageRepositoryInMemoryInterpreter[F](messages)).pure[F]
 }
