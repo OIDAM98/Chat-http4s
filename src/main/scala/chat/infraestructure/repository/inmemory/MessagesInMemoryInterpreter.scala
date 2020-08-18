@@ -9,7 +9,7 @@ import cats.effect.Sync
 import cats.implicits._
 import cats.effect.concurrent.Ref
 
-class MessageRepositoryInMemoryInterpreter[F[_]: Sync](messages: Ref[F, ListBuffer[Message]])
+class MessagesInMemoryInterpreter[F[_]: Sync](messages: Ref[F, ListBuffer[Message]])
     extends MessagesAlgebra[F] {
 
   def create(newmsg: Message): F[Message] =
@@ -20,9 +20,9 @@ class MessageRepositoryInMemoryInterpreter[F[_]: Sync](messages: Ref[F, ListBuff
     messages.get.map(_.filter(msg => msg.by == author).toList)
 }
 
-object MessageRepositoryInMemoryInterpreter {
+object MessagesInMemoryInterpreter {
   def empty[F[_]: Sync](
       messages: Ref[F, ListBuffer[Message]]
-  ): F[MessageRepositoryInMemoryInterpreter[F]] =
-    (new MessageRepositoryInMemoryInterpreter[F](messages)).pure[F]
+  ): F[MessagesInMemoryInterpreter[F]] =
+    Sync[F].delay(new MessagesInMemoryInterpreter[F](messages))
 }

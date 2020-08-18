@@ -7,7 +7,7 @@ import org.http4s.server.middleware.Logger
 import org.http4s.server.staticcontent._
 import chat.domain.messages.MessageService
 import chat.infraestructure.endpoint._
-import chat.infraestructure.repository.inmemory.MessageRepositoryInMemoryInterpreter
+import chat.infraestructure.repository.inmemory.MessagesInMemoryInterpreter
 import cats.effect.Blocker
 import org.http4s.server.Router
 import java.util.concurrent.Executors
@@ -21,7 +21,7 @@ object ChatServer {
   def stream[F[_]: ContextShift: ConcurrentEffect: Timer] = {
     for {
       inmemoryDb <- Ref.of[F, mutable.ListBuffer[Message]](mutable.ListBuffer.empty[Message])
-      storage    <- MessageRepositoryInMemoryInterpreter.empty[F](inmemoryDb)
+      storage    <- MessagesInMemoryInterpreter.empty[F](inmemoryDb)
       messages   <- MessageService.empty[F](storage)
       blocker = {
         val numBlockingThreads = 4
