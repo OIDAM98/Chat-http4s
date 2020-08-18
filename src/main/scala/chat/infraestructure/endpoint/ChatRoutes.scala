@@ -1,6 +1,6 @@
 package chat.infraestructure.endpoint
 
-import cats.effect.{Sync, IO}
+import cats.effect.{Sync}
 import cats.implicits._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
@@ -13,11 +13,11 @@ import chat.domain.messages.AuthorFilter
 import chat.domain.messages.MessageService
 import chat.domain.messages.types._
 
+import chat.http.json._
+
 object ChatRoutes {
 
   val chatRoute = "chat"
-
-  implicit val msgJsonDec = jsonOf[IO, MessageRequest]
 
   def roomRoutes[F[_]: Sync](chatMessages: MessageService[F]): HttpRoutes[F] = {
     val dsl = new Http4sDsl[F] {}
