@@ -28,13 +28,13 @@ object ChatRoutes {
       case req @ POST -> Root / chatRoute =>
         req
           .decodeJson[MessageRequest]
-          .flatMap(json => chatMessages.create(json))
-          .flatMap(res => Created(res.asJson))
+          .flatMap(chatMessages.create(_))
+          .flatMap(Created(_))
       case req @ POST -> Root / chatRoute / "filter" =>
         req
           .decodeJson[AuthorFilter]
-          .flatMap(req => chatMessages.getBy(req))
-          .flatMap(msgs => Ok(msgs.asJson))
+          .flatMap(chatMessages.getBy(_))
+          .flatMap(Ok(_))
     }
   }
 
