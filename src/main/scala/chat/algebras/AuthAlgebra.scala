@@ -1,4 +1,4 @@
-package chat.domain.auth
+package chat.algebras
 
 import chat.domain.users.types.UserName
 import chat.domain.users.types.Password

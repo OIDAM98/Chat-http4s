@@ -1,6 +1,8 @@
-package chat.domain.messages
+package chat.algebra
 
-trait MessageRepositoryAlgebra[F[_]] {
+import chat.domain.messages.Message
+
+trait MessagesAlgebra[F[_]] {
   def create(newmsg: Message): F[Message]
   def getAll: F[List[Message]]
   def getBy(author: String): F[List[Message]]

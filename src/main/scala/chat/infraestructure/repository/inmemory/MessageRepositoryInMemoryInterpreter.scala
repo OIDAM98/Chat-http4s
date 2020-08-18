@@ -1,6 +1,6 @@
 package chat.infraestructure.repository.inmemory
 
-import chat.domain.messages.MessageRepositoryAlgebra
+import chat.algebra.MessagesAlgebra
 import scala.collection.mutable.ListBuffer
 import chat.domain.messages.Message
 
@@ -10,7 +10,7 @@ import cats.implicits._
 import cats.effect.concurrent.Ref
 
 class MessageRepositoryInMemoryInterpreter[F[_]: Sync](messages: Ref[F, ListBuffer[Message]])
-    extends MessageRepositoryAlgebra[F] {
+    extends MessagesAlgebra[F] {
 
   def create(newmsg: Message): F[Message] =
     messages.update(lst => lst += newmsg) *> newmsg.pure[F]

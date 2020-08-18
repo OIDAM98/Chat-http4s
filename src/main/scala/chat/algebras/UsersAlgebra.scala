@@ -1,4 +1,4 @@
-package chat.domain.users
+package chat.algebras
 
 import chat.domain.users.types._
 

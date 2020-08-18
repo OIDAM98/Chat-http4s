@@ -11,7 +11,7 @@ import dev.profunktor.auth.AuthHeaders
 
 import chat.effects._
 import chat.http.json._
-import chat.domain.auth.AuthAlgebra
+import chat.algebras.AuthAlgebra
 import chat.domain.auth.ValidUsers.CommonUser
 import chat.domain.users.LoginUser
 import chat.domain.users.InvalidUserOrPassword
