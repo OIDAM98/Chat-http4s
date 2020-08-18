@@ -7,6 +7,7 @@ val ScalaTestPlusVersion = "3.2.1.0"
 val LogbackVersion       = "1.2.3"
 val NewtypeVersion       = "0.4.4"
 val RefinedVersion       = "0.9.15"
+val Http4sJwtVersion     = "0.0.5"
 
 lazy val root = (project in file("."))
   .settings(
@@ -19,6 +20,7 @@ lazy val root = (project in file("."))
       "org.http4s"        %% "http4s-blaze-client" % Http4sVersion,
       "org.http4s"        %% "http4s-circe"        % Http4sVersion,
       "org.http4s"        %% "http4s-dsl"          % Http4sVersion,
+      "dev.profunktor"    %% "http4s-jwt-auth"     % Http4sJwtVersion,
       "io.circe"          %% "circe-core"          % CirceVersion,
       "io.circe"          %% "circe-generic"       % CirceVersion,
       "io.circe"          %% "circe-parser"        % CirceVersion,
