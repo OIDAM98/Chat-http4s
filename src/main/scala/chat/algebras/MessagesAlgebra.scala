@@ -1,4 +1,4 @@
-package chat.algebra
+package chat.algebras
 
 import chat.domain.messages.Message
 

@@ -5,7 +5,7 @@ import chat.domain.messages._
 import cats.Monad
 import cats.effect.Sync
 import cats.implicits._
-import chat.algebra.MessagesAlgebra
+import chat.algebras.MessagesAlgebra
 
 class MessageService[F[_]: Sync: Monad](storage: MessagesAlgebra[F]) {
   def create(msgReq: MessageRequest): F[Message] = {

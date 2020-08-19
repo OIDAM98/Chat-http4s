@@ -10,8 +10,8 @@ import io.circe.generic.auto._
 import io.circe.refined._
 import io.circe.syntax._
 import chat.domain.messages.AuthorFilter
-import chat.domain.messages.MessageService
-import chat.domain.messages.types._
+import chat.infraestructure.service.MessageService
+import chat.domain.messages._
 import chat.http.json._
 import chat.http.decoder._
 

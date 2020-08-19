@@ -5,7 +5,7 @@ import cats.implicits._
 import org.http4s.implicits._
 import org.http4s.server.middleware.Logger
 import org.http4s.server.staticcontent._
-import chat.domain.messages.MessageService
+import chat.infraestructure.service._
 import chat.infraestructure.endpoint._
 import chat.infraestructure.repository.inmemory.MessagesInMemoryInterpreter
 import cats.effect.Blocker

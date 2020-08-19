@@ -1,11 +1,11 @@
-package chat.domain.auth
+package chat.domain
 
 import io.estatico.newtype.macros.newtype
 import scala.language.implicitConversions
 import chat.domain.users.User
 import dev.profunktor.auth.jwt._
 
-object ValidUsers {
+object auth {
   @newtype case class AdminJwtAuth(value: JwtSymmetricAuth)
   @newtype case class UserJwtAuth(value: JwtSymmetricAuth)
 

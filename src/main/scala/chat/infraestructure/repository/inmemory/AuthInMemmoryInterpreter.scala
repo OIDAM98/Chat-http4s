@@ -10,7 +10,7 @@ import pdi.jwt.JwtClaim
 
 import cats.effect.concurrent.Ref
 import chat.algebras.{AuthAlgebra, GenUUID, TokensAlgebra, UsersAlgebra}
-import chat.domain.users.types.{Password, UserName}
+import chat.domain.users.{Password, UserName}
 import scala.collection.mutable.HashMap
 import chat.domain.users.UserNameInUse
 import chat.effects._

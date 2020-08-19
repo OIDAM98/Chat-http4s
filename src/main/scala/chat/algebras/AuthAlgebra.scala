@@ -1,7 +1,7 @@
 package chat.algebras
 
-import chat.domain.users.types.UserName
-import chat.domain.users.types.Password
+import chat.domain.users.UserName
+import chat.domain.users.Password
 import dev.profunktor.auth.jwt.JwtToken
 
 trait AuthAlgebra[F[_]] {

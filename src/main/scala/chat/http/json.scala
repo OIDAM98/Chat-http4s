@@ -12,8 +12,8 @@ import org.http4s.circe.jsonEncoderOf
 
 import eu.timepit.refined.collection.NonEmpty
 import chat.domain.users._
-import chat.domain.messages.types._
-import chat.domain.users.types._
+import chat.domain.messages._
+import chat.domain.users._
 import chat.domain.messages._
 
 import eu.timepit.refined._

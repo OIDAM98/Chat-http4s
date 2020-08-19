@@ -1,6 +1,6 @@
 package chat.infraestructure.repository.inmemory
 
-import chat.algebra.MessagesAlgebra
+import chat.algebras.MessagesAlgebra
 import scala.collection.mutable.ListBuffer
 import chat.domain.messages.Message
 
