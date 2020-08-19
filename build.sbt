@@ -8,12 +8,13 @@ val LogbackVersion       = "1.2.3"
 val NewtypeVersion       = "0.4.4"
 val RefinedVersion       = "0.9.15"
 val Http4sJwtVersion     = "0.0.5"
+val CirisVersion         = "1.1.2"
 
 lazy val root = (project in file("."))
   .settings(
     organization := "dev.odealva",
     name := "chat-http4s",
-    version := "0.0.1-SNAPSHOT",
+    version := "0.3.2-SNAPSHOT",
     scalaVersion := "2.13.2",
     libraryDependencies ++= Seq(
       "org.http4s"        %% "http4s-blaze-server" % Http4sVersion,
@@ -25,6 +26,9 @@ lazy val root = (project in file("."))
       "io.circe"          %% "circe-generic"       % CirceVersion,
       "io.circe"          %% "circe-parser"        % CirceVersion,
       "io.circe"          %% "circe-refined"       % CirceVersion,
+      "is.cir"            %% "ciris"               % CirisVersion,
+      "is.cir"            %% "ciris-enumeratum"    % CirisVersion,
+      "is.cir"            %% "ciris-refined"       % CirisVersion,
       "eu.timepit"        %% "refined"             % RefinedVersion,
       "eu.timepit"        %% "refined-cats"        % RefinedVersion,
       "io.estatico"       %% "newtype"             % NewtypeVersion,
