@@ -18,7 +18,7 @@ import chat.domain.users.User
 import chat.http.json._
 import chat.domain.users.InvalidUserOrPassword
 
-final class AuthInMemmoryInterpreter[F[_]: GenUUID: MonadThrow](
+final class AuthInMemmoryInterpreter[F[_]: GenUUID: MonadThrow] private (
     users: UsersAlgebra[F],
     tokens: TokensAlgebra[F],
     cache: Ref[F, HashMap[String, String]]
@@ -54,4 +54,13 @@ final class AuthInMemmoryInterpreter[F[_]: GenUUID: MonadThrow](
   def logout(token: JwtToken, username: UserName): F[Unit] =
     cache.update(hs => hs -= username.value)
 
+}
+
+object AuthInMemmoryInterpreter {
+  def empty[F[_]: Sync](
+      users: UsersAlgebra[F],
+      tokens: TokensAlgebra[F],
+      cache: Ref[F, HashMap[String, String]]
+  ): F[AuthInMemmoryInterpreter[F]] =
+    Sync[F].delay(new AuthInMemmoryInterpreter[F](users, tokens, cache))
 }
