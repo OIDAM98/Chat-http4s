@@ -3,7 +3,7 @@ package chat.infraestructure.repository.inmemory
 import chat.algebras.GenUUID
 import chat.effects.MonadThrow
 import cats.effect.concurrent.Ref
-import scala.collection.mutable
+import scala.collection.concurrent.TrieMap
 import chat.algebras.UsersAlgebra
 import chat.domain.users.{User, UserName}
 import chat.domain.users.Password
@@ -14,7 +14,7 @@ import cats.Monad
 import cats.effect.Sync
 
 final class UsersInMemoryInterpreter[F[_]: GenUUID: Monad] private (
-    db: Ref[F, mutable.HashMap[UUID, (User, Password)]]
+    db: Ref[F, TrieMap[UUID, (User, Password)]]
 ) extends UsersAlgebra[F] {
 
   def create(username: UserName, password: Password): F[UserId] =
@@ -41,7 +41,7 @@ final class UsersInMemoryInterpreter[F[_]: GenUUID: Monad] private (
 
 object UsersInMemoryInterpreter {
   def empty[F[_]: Sync](
-      db: Ref[F, mutable.HashMap[UUID, (User, Password)]]
+      db: Ref[F, TrieMap[UUID, (User, Password)]]
   ): F[UsersInMemoryInterpreter[F]] =
     Sync[F].delay(new UsersInMemoryInterpreter[F](db))
 }
