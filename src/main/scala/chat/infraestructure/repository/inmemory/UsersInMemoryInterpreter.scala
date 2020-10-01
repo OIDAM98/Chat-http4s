@@ -27,11 +27,10 @@ final class UsersInMemoryInterpreter[F[_]: GenUUID: Monad] private (
   def find(username: UserName, password: Password): F[Option[User]] =
     db.get.flatMap { storage =>
       storage
-        .filter {
+        .find {
           case (_, (user, pswd)) =>
             user.name.value == username.value && pswd.value == password.value
         }
-        .headOption
         .map {
           case (_, (user, _)) => user
         }
