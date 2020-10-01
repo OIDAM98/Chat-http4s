@@ -42,12 +42,12 @@ final class UserRoutes[F[_]: JsonDecoder: Defer: Monad: MonadThrow](
       case ar @ POST -> Root / "logout" as user =>
         AuthHeaders
           .getBearerToken(ar.req)
-          .traverse_(t => auth.logout(t, user.value.name)) *> NoContent()
+          .traverse(t => auth.logout(t, user.value.name)) *> NoContent()
     }
 
   private def usersRoute =
     HttpRoutes.of[F] {
-      case req @ POST -> Root / "users" =>
+      case req @ POST -> Root / "create" =>
         req.decodeR[CreateUser] { user =>
           auth
             .newUser(user.username.toDomain, user.password.toDomain)
@@ -62,6 +62,6 @@ final class UserRoutes[F[_]: JsonDecoder: Defer: Monad: MonadThrow](
       authMiddleWare: AuthMiddleware[F, CommonUser]
   ): HttpRoutes[F] =
     Router(
-      "/auth" -> (loginRoute <+> authMiddleWare(logoutRoute) <+> usersRoute)
+      "/auth" -> (loginRoute <+> usersRoute <+> authMiddleWare(logoutRoute))
     )
 }
