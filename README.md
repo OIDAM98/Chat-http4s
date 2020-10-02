@@ -38,7 +38,6 @@ Pure functional programming was also chosen for the creation of a web applicatio
     - [x] Repository to store users inside the server (CRD)
     - [x] Route to handle the creation of a new user
   - [ ] Authentication
-    - [x] 
     - [x] Repository to handle JWT inside the server
     - [x] Route to handle logout of a user
     - [ ] Middleware for handling JWT
